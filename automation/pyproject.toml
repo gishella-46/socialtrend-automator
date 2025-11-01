@@ -1,0 +1,38 @@
+[tool.pylint.messages_control]
+disable = [
+    "import-error",
+    "no-member",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "broad-except",
+    "redefined-outer-name",
+]
+
+[tool.pylint.basic]
+good-names = ["i", "j", "k", "ex", "Run", "_", "id", "db", "pk", "app", "logger"]
+
+[tool.pylint.typecheck]
+generated-members = "*"
+
+[tool.ruff]
+line-length = 120
+ignore = ["E501", "F401", "E402"]
+
+[tool.ruff.lint]
+ignore = [
+    "E501",  # Line too long
+    "F401",  # Unused import
+    "E402",  # Module level import not at top of file
+    "ARG001",  # Unused function argument
+    "ARG002",  # Unused method argument
+    "BLE001",  # Blind except
+]
+
+
+
+
+
+
+
+
+

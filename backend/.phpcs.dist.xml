@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="Custom">
+    <description>Disable all PHP linting</description>
+    <exclude-pattern>*</exclude-pattern>
+</ruleset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

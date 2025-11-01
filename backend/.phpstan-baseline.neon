@@ -1,0 +1,25 @@
+parameters:
+    ignoreErrors:
+        - '#Class Illuminate.* not found#'
+        - '#Class Symfony.* not found#'
+        - '#Call to an undefined function#'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

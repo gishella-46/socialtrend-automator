@@ -1,0 +1,32 @@
+[MASTER]
+ignore=venv,env,.venv,__pycache__,node_modules
+extension-pkg-whitelist=pydantic
+
+[MESSAGES CONTROL]
+disable=
+    import-error,
+    no-member,
+    too-few-public-methods,
+    too-many-arguments,
+    broad-except,
+    unused-argument,
+    fixme,
+    redefined-outer-name,
+    wrong-import-position,
+    import-outside-toplevel
+
+[BASIC]
+# Good variable names which should always be accepted
+good-names=i,j,k,ex,Run,_,id,db,pk,app,logger
+
+# Ignore unused arguments in function definitions
+dummy-variables-rgx=_|^(_|unused|.*_unused).*$
+
+[TYPECHECK]
+# List of members which are set dynamically and missed by pylint inference
+# system
+generated-members=*
+
+[LOGGING]
+# Allow lazy % formatting in logging
+logging-format-style=old

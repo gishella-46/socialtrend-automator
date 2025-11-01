@@ -1,0 +1,28 @@
+notifiers:
+  - name: email_notifier
+    type: email
+    uid: email
+    org_id: 1
+    settings:
+      addresses: "admin@example.com"
+      host: "smtp.gmail.com:587"
+      user: "your-email@gmail.com"
+      password: "${SMTP_PASSWORD}"
+      fromAddress: "alerts@socialtrend.com"
+
+  - name: slack_notifier
+    type: slack
+    uid: slack
+    org_id: 1
+    settings:
+      url: "${SLACK_WEBHOOK_URL}"
+      username: "Grafana Alerts"
+      channel: "#alerts"
+
+
+
+
+
+
+
+

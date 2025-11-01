@@ -1,0 +1,1 @@
+"""SocialTrend Automation Microservice."""

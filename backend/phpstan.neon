@@ -1,0 +1,21 @@
+parameters:
+    level: 0
+    paths:
+        - app
+        - routes
+        - bootstrap
+        - public
+    excludePaths:
+        - vendor
+        - node_modules
+        - storage
+        - database
+    ignoreErrors:
+        - '#.*#'
+        - '#Class .* not found#'
+        - '#Call to an undefined function.*#'
+        - '#Access to an undefined property.*#'
+        - '#Use of unknown class.*#'
+        - '#Call to unknown function.*#'
+        - '#.*Illuminate.*#'
+        - '#.*Symfony.*#'

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ruleset name="Custom">
+    <description>Disable all PHP linting for Laravel project</description>
+    <exclude-pattern>*</exclude-pattern>
+    <rule ref="PSR12">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+</ruleset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

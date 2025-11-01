@@ -1,0 +1,90 @@
+name: Endpoints
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/upload/callback
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Handle upload callback from Python service'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      scheduled_post_id:
+        name: scheduled_post_id
+        description: 'The <code>id</code> of an existing record in the scheduled_posts table.'
+        required: true
+        example: 18
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      status:
+        name: status
+        description: ''
+        required: true
+        example: failed
+        type: string
+        enumValues:
+          - posted
+          - failed
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      message:
+        name: message
+        description: ''
+        required: false
+        example: qui
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      post_url:
+        name: post_url
+        description: 'Must be a valid URL.'
+        required: false
+        example: 'http://www.kuphal.com/omnis-et-rem-iure-aliquid-debitis'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+      error:
+        name: error
+        description: ''
+        required: false
+        example: dolor
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanBodyParameters:
+      scheduled_post_id: 18
+      status: failed
+      message: qui
+      post_url: 'http://www.kuphal.com/omnis-et-rem-iure-aliquid-debitis'
+      error: dolor
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

@@ -1,0 +1,292 @@
+{
+    "dashboard": {
+        "title": "SocialTrend Automator - Monitoring",
+        "tags": [
+            "socialtrend",
+            "monitoring"
+        ],
+        "timezone": "browser",
+        "schemaVersion": 27,
+        "version": 1,
+        "refresh": "10s",
+        "panels": [
+            {
+                "id": 1,
+                "title": "API Request Rate (Laravel)",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(http_requests_total{job=\"laravel\"}[5m])",
+                        "legendFormat": "{{method}} {{route}}",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 0
+                }
+            },
+            {
+                "id": 2,
+                "title": "API Latency (P95) - Laravel",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"laravel\"}[5m]))",
+                        "legendFormat": "P95 Latency",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 0
+                },
+                "yaxes": [
+                    {
+                        "format": "s"
+                    },
+                    {
+                        "format": "short"
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "title": "API Error Rate",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(http_requests_total{job=\"laravel\",status=~\"5..\"}[5m])",
+                        "legendFormat": "5xx Errors",
+                        "refId": "A"
+                    },
+                    {
+                        "expr": "rate(http_requests_total{job=\"laravel\",status=~\"4..\"}[5m])",
+                        "legendFormat": "4xx Errors",
+                        "refId": "B"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 8
+                },
+                "alert": {
+                    "name": "High Error Rate",
+                    "message": "Error rate exceeds 5%",
+                    "conditions": [
+                        {
+                            "evaluator": {
+                                "params": [
+                                    0.05
+                                ],
+                                "type": "gt"
+                            },
+                            "operator": {
+                                "type": "and"
+                            },
+                            "query": {
+                                "model": "A",
+                                "params": [
+                                    "A",
+                                    "5m",
+                                    "now"
+                                ]
+                            },
+                            "reducer": {
+                                "params": [],
+                                "type": "last"
+                            },
+                            "type": "query"
+                        }
+                    ],
+                    "executionErrorState": "alerting",
+                    "for": "5m",
+                    "frequency": "10s",
+                    "handler": 1,
+                    "noDataState": "no_data",
+                    "notifications": []
+                }
+            },
+            {
+                "id": 4,
+                "title": "Upload Success Rate",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "sum(rate(upload_operations_total{status=\"success\"}[5m])) / sum(rate(upload_operations_total[5m])) * 100",
+                        "legendFormat": "Success Rate",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 8,
+                    "x": 12,
+                    "y": 8
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "unit": "percent",
+                        "decimals": 2,
+                        "thresholds": {
+                            "steps": [
+                                {
+                                    "value": 0,
+                                    "color": "red"
+                                },
+                                {
+                                    "value": 90,
+                                    "color": "yellow"
+                                },
+                                {
+                                    "value": 95,
+                                    "color": "green"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "id": 5,
+                "title": "FastAPI Request Rate",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "rate(http_requests_total{job=\"fastapi\"}[5m])",
+                        "legendFormat": "{{method}} {{endpoint}}",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 16
+                }
+            },
+            {
+                "id": 6,
+                "title": "FastAPI Latency",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"fastapi\"}[5m]))",
+                        "legendFormat": "P95 Latency",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 16
+                },
+                "yaxes": [
+                    {
+                        "format": "s"
+                    },
+                    {
+                        "format": "short"
+                    }
+                ]
+            },
+            {
+                "id": 7,
+                "title": "Celery Task Duration",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "histogram_quantile(0.95, rate(celery_task_duration_seconds_bucket[5m]))",
+                        "legendFormat": "{{task_name}} - P95",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 24
+                }
+            },
+            {
+                "id": 8,
+                "title": "Celery Queue Backlog",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "celery_queue_length",
+                        "legendFormat": "{{queue_name}}",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 24
+                }
+            },
+            {
+                "id": 9,
+                "title": "Redis Memory Usage",
+                "type": "graph",
+                "targets": [
+                    {
+                        "expr": "redis_memory_used_bytes",
+                        "legendFormat": "Memory Used",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 8,
+                    "x": 0,
+                    "y": 32
+                }
+            },
+            {
+                "id": 10,
+                "title": "Active Users (Last 5 min)",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "count(http_requests_total{job=\"laravel\"} offset 5m)",
+                        "legendFormat": "Active Users",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 4,
+                    "w": 8,
+                    "x": 8,
+                    "y": 32
+                }
+            },
+            {
+                "id": 11,
+                "title": "Total API Requests (Last Hour)",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "sum(increase(http_requests_total{job=\"laravel\"}[1h]))",
+                        "legendFormat": "Requests",
+                        "refId": "A"
+                    }
+                ],
+                "gridPos": {
+                    "h": 4,
+                    "w": 8,
+                    "x": 16,
+                    "y": 32
+                }
+            }
+        ]
+    }
+}

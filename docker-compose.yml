@@ -1,0 +1,286 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: socialtrend_postgres
+    environment:
+      POSTGRES_DB: socialtrend_db
+      POSTGRES_USER: socialtrend_user
+      POSTGRES_PASSWORD: socialtrend_pass
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U socialtrend_user -d socialtrend_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: socialtrend_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: socialtrend_backend
+    volumes:
+      - ./backend:/var/www/html
+      - backend_vendor:/var/www/html/vendor
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=socialtrend_db
+      - DB_USERNAME=socialtrend_user
+      - DB_PASSWORD=socialtrend_pass
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: socialtrend_frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    environment:
+      - VITE_API_URL=http://localhost/api
+
+  automation:
+    build:
+      context: ./automation
+      dockerfile: Dockerfile
+    container_name: socialtrend_automation
+    volumes:
+      - ./automation:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=socialtrend_db
+      - DB_USERNAME=socialtrend_user
+      - DB_PASSWORD=socialtrend_pass
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  celery:
+    build:
+      context: ./automation
+      dockerfile: Dockerfile
+    container_name: socialtrend_celery
+    command: celery -A tasks worker --loglevel=info
+    volumes:
+      - ./automation:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      automation:
+        condition: service_started
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=socialtrend_db
+      - DB_USERNAME=socialtrend_user
+      - DB_PASSWORD=socialtrend_pass
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  nginx:
+    image: nginx:alpine
+    container_name: socialtrend_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - nginx_logs:/var/log/nginx
+      # Uncomment for SSL certificates (certbot or Cloudflare)
+      # - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+      # - ./docker/nginx/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - frontend
+      - backend
+      - automation
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: socialtrend_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - automation
+      - redis
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: socialtrend_grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: socialtrend_redis_exporter
+    environment:
+      - REDIS_ADDR=redis:6379
+    ports:
+      - "9121:9121"
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    depends_on:
+      - redis
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: socialtrend_elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    container_name: socialtrend_logstash
+    volumes:
+      - ./docker/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./docker/logstash/config:/usr/share/logstash/config:ro
+      - nginx_logs:/var/log/nginx:ro
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+    environment:
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: socialtrend_kibana
+    ports:
+      - "5601:5601"
+    volumes:
+      - ./docker/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=
+      - xpack.security.enabled=false
+
+networks:
+  socialtrend_net:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
+  backend_vendor:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  nginx_logs:
+    driver: local

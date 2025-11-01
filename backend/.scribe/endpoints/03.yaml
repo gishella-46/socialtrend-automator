@@ -1,0 +1,108 @@
+name: Scheduling
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/schedule
+    metadata:
+      groupName: Scheduling
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Schedule a new post'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      social_account_id:
+        name: social_account_id
+        description: 'ID of the social account.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+      content:
+        name: content
+        description: 'Post content.'
+        required: true
+        example: 'Check out this amazing content!'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+      scheduled_at:
+        name: scheduled_at
+        description: 'Scheduled datetime (ISO format, must be in future).'
+        required: true
+        example: '2024-12-25 10:00:00'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+      media_urls:
+        name: media_urls
+        description: 'optional Array of media URLs.'
+        required: false
+        example:
+          - 'https://example.com/image.jpg'
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      social_account_id: 1
+      content: 'Check out this amazing content!'
+      scheduled_at: '2024-12-25 10:00:00'
+      media_urls:
+        - 'https://example.com/image.jpg'
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: |-
+          {
+            "message": "Post scheduled successfully",
+            "scheduled_post": {
+              "id": 1,
+              "user_id": 1,
+              "social_account_id": 1,
+              "content": "Check out this amazing content!",
+              "scheduled_at": "2024-12-25 10:00:00",
+              "status": "pending"
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: |-
+          {
+            "message": "The given data was invalid.",
+            "errors": {
+              "scheduled_at": ["The scheduled at must be a date after now."]
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

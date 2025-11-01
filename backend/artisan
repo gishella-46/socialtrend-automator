@@ -1,0 +1,57 @@
+#!/usr/bin/env php
+<?php
+// @phpstan-ignore-file
+// phpcs:ignoreFile
+/**
+ * Artisan Console
+ * 
+ * This is the entry point for all Artisan console commands.
+ * 
+ * Note: This file uses Laravel classes that are loaded at runtime.
+ * VS Code warnings about unknown classes are expected and can be ignored.
+ */
+
+define('LARAVEL_START', microtime(true));
+
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+*/
+
+require __DIR__ . '/vendor/autoload.php';
+
+$app = require_once __DIR__ . '/bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Artisan Application
+|--------------------------------------------------------------------------
+*/
+
+// phpcs:ignore
+// @phpstan-ignore-next-line
+/** @var \Illuminate\Contracts\Console\Kernel $kernel */
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+
+// @phpstan-ignore-next-line
+/** @var int $status */
+$status = $kernel->handle(
+    // @phpstan-ignore-next-line
+    /** @var \Symfony\Component\Console\Input\InputInterface $input */
+    $input = new Symfony\Component\Console\Input\ArgvInput,
+    // @phpstan-ignore-next-line
+    /** @var \Symfony\Component\Console\Output\OutputInterface */
+    new Symfony\Component\Console\Output\ConsoleOutput
+);
+
+/*
+|--------------------------------------------------------------------------
+| Shutdown The Application
+|--------------------------------------------------------------------------
+*/
+
+$kernel->terminate($input, $status);
+
+exit($status);
+

@@ -1,0 +1,34 @@
+apiVersion: 1
+
+groups:
+  - name: socialtrend_alerts
+    interval: 10s
+    rules:
+      - uid: high_error_rate
+        title: High Error Rate Alert
+        condition: A
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: 'rate(http_requests_total{job="laravel",status=~"5.."}[5m]) > 0.05'
+              refId: A
+        noDataState: NoData
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          summary: Error rate exceeds 5%
+          description: API error rate is {{ $value }}%, which exceeds the threshold of 5%
+        labels:
+          severity: critical
+
+
+
+
+
+
+
+
