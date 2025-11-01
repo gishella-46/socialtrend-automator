@@ -11,9 +11,9 @@ on:
 
 env:
   DOCKER_REGISTRY: ghcr.io
-  DOCKER_IMAGE_BACKEND: ${{ secrets.DOCKER_REGISTRY }}/socialtrend-backend
-  DOCKER_IMAGE_AUTOMATION: ${{ secrets.DOCKER_REGISTRY }}/socialtrend-automation
-  DOCKER_IMAGE_FRONTEND: ${{ secrets.DOCKER_REGISTRY }}/socialtrend-frontend
+  DOCKER_IMAGE_BACKEND: ghcr.io/gishella-46/socialtrend-backend
+  DOCKER_IMAGE_AUTOMATION: ghcr.io/gishella-46/socialtrend-automation
+  DOCKER_IMAGE_FRONTEND: ghcr.io/gishella-46/socialtrend-frontend
 
 jobs:
   # 🧩 Build & Lint Stage
@@ -238,7 +238,7 @@ jobs:
         id: meta-backend
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}/socialtrend-backend
+          images: ghcr.io/gishella-46/socialtrend-backend
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -250,7 +250,7 @@ jobs:
         id: meta-automation
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}/socialtrend-automation
+          images: ghcr.io/gishella-46/socialtrend-automation
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -262,7 +262,7 @@ jobs:
         id: meta-frontend
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}/socialtrend-frontend
+          images: ghcr.io/gishella-46/socialtrend-frontend
           tags: |
             type=ref,event=branch
             type=ref,event=pr

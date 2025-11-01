@@ -2,7 +2,7 @@
 
 Full-stack social media automation platform with AI-powered caption generation.
 
-![CI/CD Pipeline](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/workflows/CI%2FCD%20Pipeline/badge.svg)
+![CI/CD Pipeline](https://github.com/gishella-46/socialtrend-automator/workflows/CI%2FCD%20Pipeline/badge.svg)
 
 ## 🚀 Quick Start
 
