@@ -90,6 +90,7 @@ docker exec socialtrend_nginx certbot --nginx -d yourdomain.com
 - **Monitoring**: `docs/MONITORING.md`
 - **Logging**: `docs/LOGGING.md`
 - **CI/CD**: `docs/CI_CD.md`
+- **Backup System**: `docs/BACKUP_GUIDE.md`
 
 ## 🛠️ Development
 

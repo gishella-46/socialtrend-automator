@@ -267,6 +267,37 @@ services:
       - ELASTICSEARCH_PASSWORD=
       - xpack.security.enabled=false
 
+  backup-cron:
+    image: postgres:16-alpine
+    container_name: socialtrend_backup_cron
+    volumes:
+      - ./backup:/backup
+      - ./backup/scripts:/scripts:ro
+      - db_data:/var/lib/postgresql/data:ro
+      - backend_vendor:/var/www/html/storage/logs:ro
+      - nginx_logs:/var/log/nginx:ro
+    networks:
+      - socialtrend_net
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - POSTGRES_DB=socialtrend_db
+      - POSTGRES_USER=socialtrend_user
+      - POSTGRES_PASSWORD=socialtrend_pass
+      - PGPASSWORD=socialtrend_pass
+    # Install cron and client tools
+    command: >
+      sh -c "
+      apk add --no-cache dcron bash &&
+      chmod +x /scripts/*.sh &&
+      echo '0 2 * * * /scripts/backup_db.sh >> /backup/backup_db.log 2>&1' | crontab - &&
+      echo '30 2 * * * /scripts/backup_logs.sh >> /backup/backup_logs.log 2>&1' | crontab - &&
+      crond -f -l 8
+      "
+
 networks:
   socialtrend_net:
     driver: bridge
@@ -283,4 +314,6 @@ volumes:
   elasticsearch_data:
     driver: local
   nginx_logs:
+    driver: local
+  backup_data:
     driver: local

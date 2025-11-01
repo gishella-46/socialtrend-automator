@@ -3,6 +3,13 @@
 .env.local
 .env.*.local
 
+# Backup data (keep structure, ignore content)
+backup/database/*.sql.gz
+backup/logs/*.tar.gz
+backup/*.log
+!backup/database/.gitkeep
+!backup/logs/.gitkeep
+
 # Dependencies
 node_modules/
 vendor/
