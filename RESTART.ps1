@@ -1,11 +1,10 @@
-#!/usr/bin/env pwsh
 # SocialTrend Automator - Restart All Services Script
 # Double-click to restart the entire application
 
 Write-Host ""
-Write-Host "╔════════════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║     SocialTrend Automator - Restart All Services                         ║" -ForegroundColor Cyan
-Write-Host "╚════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host "  SocialTrend Automator - Restart All Services" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 
 Write-Host "Stopping all containers..." -ForegroundColor Yellow

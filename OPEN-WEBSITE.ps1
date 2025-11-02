@@ -1,11 +1,10 @@
-#!/usr/bin/env pwsh
 # SocialTrend Automator - Open Website Script
 # Double-click to open the application in your browser
 
 Write-Host ""
-Write-Host "╔════════════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║     SocialTrend Automator - Open Website                                  ║" -ForegroundColor Cyan
-Write-Host "╚════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host "  SocialTrend Automator - Open Website" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Select website to open:" -ForegroundColor Yellow
 Write-Host ""

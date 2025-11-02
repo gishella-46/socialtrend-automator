@@ -1,11 +1,10 @@
-#!/usr/bin/env pwsh
 # SocialTrend Automator - View Logs Script
 # Double-click to view application logs
 
 Write-Host ""
-Write-Host "╔════════════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║     SocialTrend Automator - View Logs                                     ║" -ForegroundColor Cyan
-Write-Host "╚════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host "  SocialTrend Automator - View Logs" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Select logs to view:" -ForegroundColor Yellow
 Write-Host ""

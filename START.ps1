@@ -1,11 +1,10 @@
-#!/usr/bin/env pwsh
 # SocialTrend Automator - Quick Start Script
 # Double-click to start the entire application
 
 Write-Host ""
-Write-Host "╔════════════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║     SocialTrend Automator - One-Click Start                              ║" -ForegroundColor Cyan
-Write-Host "╚════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
+Write-Host "  SocialTrend Automator - One-Click Start" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Check if Docker is installed
@@ -60,28 +59,24 @@ Write-Host "Generating API documentation..." -ForegroundColor Blue
 docker exec socialtrend_backend php artisan scribe:generate 2>$null
 
 Write-Host ""
-Write-Host "════════════════════════════════════════════════════════════════════════" -ForegroundColor Green
-Write-Host "SETUP COMPLETE!" -ForegroundColor Green
-Write-Host "════════════════════════════════════════════════════════════════════════" -ForegroundColor Green
+Write-Host "==========================================" -ForegroundColor Green
+Write-Host "  SETUP COMPLETE!" -ForegroundColor Green
+Write-Host "==========================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "Access your application:" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "   Frontend:       " -NoNewline -ForegroundColor White
-Write-Host "http://localhost" -ForegroundColor Green
-Write-Host "   Backend API:    " -NoNewline -ForegroundColor White
-Write-Host "http://localhost/api" -ForegroundColor Green
-Write-Host "   Laravel Docs:   " -NoNewline -ForegroundColor White
-Write-Host "http://localhost/docs" -ForegroundColor Green
-Write-Host "   FastAPI Docs:   " -NoNewline -ForegroundColor White
-Write-Host "http://localhost/automation/docs" -ForegroundColor Green
+Write-Host "   Frontend:       http://localhost" -ForegroundColor Green
+Write-Host "   Backend API:    http://localhost/api" -ForegroundColor Green
+Write-Host "   Laravel Docs:   http://localhost/docs" -ForegroundColor Green
+Write-Host "   FastAPI Docs:   http://localhost/automation/docs" -ForegroundColor Green
 Write-Host ""
 Write-Host "Container Status:" -ForegroundColor Cyan
 docker-compose ps
 
 Write-Host ""
-Write-Host "════════════════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host "TIP: Double-click this file again to restart all services!" -ForegroundColor Yellow
-Write-Host "════════════════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Keep window open
