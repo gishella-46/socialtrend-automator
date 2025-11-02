@@ -1,0 +1,53 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Dependencies
+vendor/
+node_modules/
+
+# Cache & temp files
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+.phpunit.result.cache
+bootstrap/cache/*.php
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+README*
+LICENSE
+SETUP*.md
+QUEUE*.md
+
+# Build artifacts
+public/hot
+public/storage
+public/docs
+public/.htaccess
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Scripts
+auto-setup*
+*.ps1
+*.sh
+
+# Testing
+tests/
+.phpunit.cache
+coverage/
+
