@@ -91,6 +91,7 @@ docker exec socialtrend_nginx certbot --nginx -d yourdomain.com
 - **Logging**: `docs/LOGGING.md`
 - **CI/CD**: `docs/CI_CD.md`
 - **Backup System**: `docs/BACKUP_GUIDE.md`
+- **Testing**: `docs/TESTING.md`
 
 ## 🛠️ Development
 
@@ -136,11 +137,22 @@ docker-compose restart
 ```bash
 # Laravel tests
 docker exec socialtrend_backend php artisan test
+composer test  # or cd backend && php artisan test
+
+# FastAPI tests
+docker exec socialtrend_automation pytest
+cd automation && pytest
+
+# Vue tests
+cd frontend && npm test
+npm test -- --run  # CI mode
 
 # Check API health
 curl http://localhost/api/health
 curl http://localhost/automation/health
 ```
+
+For detailed testing guide, see [Testing Documentation](docs/TESTING.md).
 
 ## 📦 Environment Variables
 
