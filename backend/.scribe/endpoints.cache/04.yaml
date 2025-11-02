@@ -28,7 +28,7 @@ endpoints:
         name: scheduled_post_id
         description: 'The <code>id</code> of an existing record in the scheduled_posts table.'
         required: true
-        example: 18
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -38,7 +38,7 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: failed
+        example: posted
         type: string
         enumValues:
           - posted
@@ -50,7 +50,7 @@ endpoints:
         name: message
         description: ''
         required: false
-        example: qui
+        example: non
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -60,7 +60,7 @@ endpoints:
         name: post_url
         description: 'Must be a valid URL.'
         required: false
-        example: 'http://www.kuphal.com/omnis-et-rem-iure-aliquid-debitis'
+        example: 'http://www.schulist.net/'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -70,20 +70,84 @@ endpoints:
         name: error
         description: ''
         required: false
-        example: dolor
+        example: reprehenderit
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         custom: []
     cleanBodyParameters:
-      scheduled_post_id: 18
-      status: failed
-      message: qui
-      post_url: 'http://www.kuphal.com/omnis-et-rem-iure-aliquid-debitis'
-      error: dolor
+      scheduled_post_id: 20
+      status: posted
+      message: non
+      post_url: 'http://www.schulist.net/'
+      error: reprehenderit
     fileParameters: []
     responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/metrics
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get Prometheus metrics'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |
+          # HELP http_requests_total Total number of HTTP requests
+          # TYPE http_requests_total counter
+          http_requests_total{method="GET",route="/api",status="200"} 710
+          # HELP http_request_duration_seconds HTTP request duration in seconds
+          # TYPE http_request_duration_seconds histogram
+          http_request_duration_seconds_bucket{le="0.005"} 108
+          http_request_duration_seconds_bucket{le="0.01"} 252
+          http_request_duration_seconds_bucket{le="0.025"} 268
+          http_request_duration_seconds_bucket{le="0.05"} 622
+          http_request_duration_seconds_bucket{le="0.1"} 732
+          http_request_duration_seconds_bucket{le="0.25"} 763
+          http_request_duration_seconds_bucket{le="0.5"} 949
+          http_request_duration_seconds_bucket{le="1"} 950
+          http_request_duration_seconds_bucket{le="2.5"} 995
+          http_request_duration_seconds_bucket{le="5"} 997
+          http_request_duration_seconds_bucket{le="10"} 996
+          http_request_duration_seconds_bucket{le="+Inf"} 1000
+          # HELP http_errors_total Total number of HTTP errors
+          # TYPE http_errors_total counter
+          http_errors_total{status="4xx"} 13
+          http_errors_total{status="5xx"} 5
+          # HELP upload_operations_total Total upload operations
+          # TYPE upload_operations_total counter
+          upload_operations_total{status="success"} 83
+          upload_operations_total{status="failed"} 4
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: 'text/plain; version=0.0.4; charset=utf-8'
+          vary: Origin
+        description: null
+        custom: []
     responseFields: []
     auth: []
     controller: null

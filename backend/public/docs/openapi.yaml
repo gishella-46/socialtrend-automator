@@ -190,12 +190,12 @@ paths:
                 scheduled_post_id:
                   type: integer
                   description: 'The <code>id</code> of an existing record in the scheduled_posts table.'
-                  example: 18
+                  example: 20
                   nullable: false
                 status:
                   type: string
                   description: ''
-                  example: failed
+                  example: posted
                   nullable: false
                   enum:
                     - posted
@@ -203,21 +203,68 @@ paths:
                 message:
                   type: string
                   description: ''
-                  example: qui
+                  example: non
                   nullable: true
                 post_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://www.kuphal.com/omnis-et-rem-iure-aliquid-debitis'
+                  example: 'http://www.schulist.net/'
                   nullable: true
                 error:
                   type: string
                   description: ''
-                  example: dolor
+                  example: reprehenderit
                   nullable: true
               required:
                 - scheduled_post_id
                 - status
+      security: []
+  /api/metrics:
+    get:
+      summary: 'Get Prometheus metrics'
+      operationId: getPrometheusMetrics
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "# HELP http_requests_total Total number of HTTP requests\n# TYPE http_requests_total counter\nhttp_requests_total{method=\"GET\",route=\"/api\",status=\"200\"} 710\n# HELP http_request_duration_seconds HTTP request duration in seconds\n# TYPE http_request_duration_seconds histogram\nhttp_request_duration_seconds_bucket{le=\"0.005\"} 108\nhttp_request_duration_seconds_bucket{le=\"0.01\"} 252\nhttp_request_duration_seconds_bucket{le=\"0.025\"} 268\nhttp_request_duration_seconds_bucket{le=\"0.05\"} 622\nhttp_request_duration_seconds_bucket{le=\"0.1\"} 732\nhttp_request_duration_seconds_bucket{le=\"0.25\"} 763\nhttp_request_duration_seconds_bucket{le=\"0.5\"} 949\nhttp_request_duration_seconds_bucket{le=\"1\"} 950\nhttp_request_duration_seconds_bucket{le=\"2.5\"} 995\nhttp_request_duration_seconds_bucket{le=\"5\"} 997\nhttp_request_duration_seconds_bucket{le=\"10\"} 996\nhttp_request_duration_seconds_bucket{le=\"+Inf\"} 1000\n# HELP http_errors_total Total number of HTTP errors\n# TYPE http_errors_total counter\nhttp_errors_total{status=\"4xx\"} 13\nhttp_errors_total{status=\"5xx\"} 5\n# HELP upload_operations_total Total upload operations\n# TYPE upload_operations_total counter\nupload_operations_total{status=\"success\"} 83\nupload_operations_total{status=\"failed\"} 4\n"
+      tags:
+        - Endpoints
+      security: []
+  /api/health:
+    get:
+      summary: 'Prometheus metrics endpoint for monitoring'
+      operationId: prometheusMetricsEndpointForMonitoring
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: healthy
+                  service: 'SocialTrend Automator API'
+                  version: 1.0.0
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  service:
+                    type: string
+                    example: 'SocialTrend Automator API'
+                  version:
+                    type: string
+                    example: 1.0.0
+      tags:
+        - Metrics
       security: []
   /api/schedule:
     post:
@@ -484,6 +531,9 @@ tags:
     description: ''
   -
     name: Endpoints
+    description: ''
+  -
+    name: Metrics
     description: ''
   -
     name: Scheduling

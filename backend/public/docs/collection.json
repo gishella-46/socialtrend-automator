@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "SocialTrendAutomator",
-        "_postman_id": "8f9f95a8-8ed0-41a3-a43d-d6ef3c2c1268",
+        "_postman_id": "b88828e4-1e09-4909-8a57-5fa62e2d8594",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -135,7 +135,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"scheduled_post_id\":18,\"status\":\"failed\",\"message\":\"qui\",\"post_url\":\"http:\\\/\\\/www.kuphal.com\\\/omnis-et-rem-iure-aliquid-debitis\",\"error\":\"dolor\"}"
+                            "raw": "{\"scheduled_post_id\":20,\"status\":\"posted\",\"message\":\"non\",\"post_url\":\"http:\\\/\\\/www.schulist.net\\\/\",\"error\":\"reprehenderit\"}"
                         },
                         "description": "",
                         "auth": {
@@ -143,6 +143,108 @@
                         }
                     },
                     "response": []
+                },
+                {
+                    "name": "Get Prometheus metrics",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/metrics",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/metrics"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "text\/plain; version=0.0.4; charset=utf-8"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "# HELP http_requests_total Total number of HTTP requests\n# TYPE http_requests_total counter\nhttp_requests_total{method=\"GET\",route=\"\/api\",status=\"200\"} 710\n# HELP http_request_duration_seconds HTTP request duration in seconds\n# TYPE http_request_duration_seconds histogram\nhttp_request_duration_seconds_bucket{le=\"0.005\"} 108\nhttp_request_duration_seconds_bucket{le=\"0.01\"} 252\nhttp_request_duration_seconds_bucket{le=\"0.025\"} 268\nhttp_request_duration_seconds_bucket{le=\"0.05\"} 622\nhttp_request_duration_seconds_bucket{le=\"0.1\"} 732\nhttp_request_duration_seconds_bucket{le=\"0.25\"} 763\nhttp_request_duration_seconds_bucket{le=\"0.5\"} 949\nhttp_request_duration_seconds_bucket{le=\"1\"} 950\nhttp_request_duration_seconds_bucket{le=\"2.5\"} 995\nhttp_request_duration_seconds_bucket{le=\"5\"} 997\nhttp_request_duration_seconds_bucket{le=\"10\"} 996\nhttp_request_duration_seconds_bucket{le=\"+Inf\"} 1000\n# HELP http_errors_total Total number of HTTP errors\n# TYPE http_errors_total counter\nhttp_errors_total{status=\"4xx\"} 13\nhttp_errors_total{status=\"5xx\"} 5\n# HELP upload_operations_total Total upload operations\n# TYPE upload_operations_total counter\nupload_operations_total{status=\"success\"} 83\nupload_operations_total{status=\"failed\"} 4\n",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Metrics",
+            "description": "",
+            "item": [
+                {
+                    "name": "Prometheus metrics endpoint for monitoring",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/health",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/health"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":\"healthy\",\"service\":\"SocialTrend Automator API\",\"version\":\"1.0.0\"}",
+                            "name": ""
+                        }
+                    ]
                 }
             ]
         },
