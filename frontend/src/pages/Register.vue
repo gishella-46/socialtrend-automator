@@ -77,9 +77,13 @@
 
         <p class="text-center text-sm text-gray-600 dark:text-gray-400">
           Already have an account?
-          <router-link to="/login" class="text-purple-600 dark:text-purple-400 hover:underline font-semibold">
+          <a
+            href="/login"
+            @click.prevent="router.push('/login')"
+            class="text-purple-600 dark:text-purple-400 hover:underline font-semibold cursor-pointer transition-colors"
+          >
             Sign in
-          </router-link>
+          </a>
         </p>
 
         <div v-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-red-700 dark:text-red-400 text-sm">
@@ -91,10 +95,10 @@
 </template>
 
 <script setup>
+import { Motion } from '@motionone/vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../store/auth'
-import { Motion } from '@motionone/vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -130,13 +134,3 @@ const handleRegister = async () => {
   loading.value = false
 }
 </script>
-
-
-
-
-
-
-
-
-
-
