@@ -54,7 +54,7 @@ if [ ! -f "${BACKUP_FILE}" ]; then
     -F p \
     -v \
     -f "${DUMP_FILE}"
-  
+
   # Compress with gzip
   gzip "${DUMP_FILE}"
   BACKUP_FILE="${DUMP_FILE}.gz"
@@ -64,7 +64,7 @@ fi
 if [ -f "${BACKUP_FILE}" ]; then
   BACKUP_SIZE=$(du -h "${BACKUP_FILE}" | cut -f1)
   echo "========================================="
-  echo "âœ… Backup completed successfully!"
+  echo "✓ Backup completed successfully!"
   echo "File: ${BACKUP_FILE}"
   echo "Size: ${BACKUP_SIZE}"
   echo "========================================="
@@ -84,7 +84,7 @@ find "${BACKUP_DIR}" \
   -mtime +${RETENTION_DAYS} \
   -delete
 
-echo "âœ… Cleanup completed"
+echo "✓ Cleanup completed"
 
 # List current backups
 echo "========================================="
@@ -97,16 +97,16 @@ if [ "${ENABLE_S3_BACKUP}" = "true" ] && [ -n "${S3_BUCKET}" ]; then
   echo "========================================="
   echo "Uploading to S3: ${S3_BUCKET}"
   echo "========================================="
-  
+
   # Install AWS CLI if not present
   if ! command -v aws &> /dev/null; then
     echo "Installing AWS CLI..."
     apk add --no-cache aws-cli 2>/dev/null || apt-get update && apt-get install -y awscli 2>/dev/null
   fi
-  
+
   S3_PATH="s3://${S3_BUCKET}/backups/database/${TIMESTAMP}.sql.gz"
   aws s3 cp "${BACKUP_FILE}" "${S3_PATH}"
-  echo "âœ… Uploaded to S3: ${S3_PATH}"
+  echo "✓ Uploaded to S3: ${S3_PATH}"
 fi
 
 # Optional: Upload to Google Cloud Storage
@@ -114,19 +114,18 @@ if [ "${ENABLE_GCS_BACKUP}" = "true" ] && [ -n "${GCS_BUCKET}" ]; then
   echo "========================================="
   echo "Uploading to GCS: ${GCS_BUCKET}"
   echo "========================================="
-  
+
   # Install gsutil if not present
   if ! command -v gsutil &> /dev/null; then
     echo "Installing Google Cloud SDK..."
     curl https://sdk.cloud.google.com | bash
   fi
-  
+
   GCS_PATH="gs://${GCS_BUCKET}/backups/database/${TIMESTAMP}.sql.gz"
   gsutil cp "${BACKUP_FILE}" "${GCS_PATH}"
-  echo "âœ… Uploaded to GCS: ${GCS_PATH}"
+  echo "✓ Uploaded to GCS: ${GCS_PATH}"
 fi
 
 echo "========================================="
-echo "âœ… Backup process completed!"
+echo "✓ Backup process completed!"
 echo "========================================="
-

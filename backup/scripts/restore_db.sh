@@ -58,21 +58,21 @@ echo "========================================="
 # Check if file is compressed
 if [[ "${BACKUP_FILE}" == *.gz ]]; then
   echo "Detected compressed backup, extracting..."
-  
+
   # Check if backup uses custom format (pg_dump -Fc)
   if gunzip -c "${BACKUP_FILE}" | head -c 5 | grep -q "PGDMP" 2>/dev/null; then
     echo "Detected custom format backup (.sql.gz with custom format)"
     gunzip -c "${BACKUP_FILE}" > "/tmp/restore_temp.sql"
-    
+
     # Drop database and recreate
     echo "Dropping existing database..."
     psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
       -c "DROP DATABASE IF EXISTS ${DB_NAME};" || true
-    
+
     echo "Creating new database..."
     psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
       -c "CREATE DATABASE ${DB_NAME};"
-    
+
     # Restore from custom format
     echo "Restoring database..."
     pg_restore \
@@ -97,11 +97,11 @@ if [[ "${BACKUP_FILE}" == *.gz ]]; then
     echo "Dropping existing database..."
     psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
       -c "DROP DATABASE IF EXISTS ${DB_NAME};" || true
-    
+
     echo "Creating new database..."
     psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
       -c "CREATE DATABASE ${DB_NAME};"
-    
+
     echo "Restoring database..."
     gunzip -c "${BACKUP_FILE}" | psql \
       -h "${DB_HOST}" \
@@ -109,26 +109,26 @@ if [[ "${BACKUP_FILE}" == *.gz ]]; then
       -U "${DB_USER}" \
       -d "${DB_NAME}"
   fi
-  
+
   # Cleanup
   rm -f "/tmp/restore_temp.sql"
 else
   # Non-compressed backup
   echo "Detected non-compressed backup"
-  
+
   # Check backup format
   if head -c 5 "${BACKUP_FILE}" | grep -q "PGDMP" 2>/dev/null; then
     echo "Detected custom format backup"
-    
+
     # Drop and recreate database
     echo "Dropping existing database..."
     psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
       -c "DROP DATABASE IF EXISTS ${DB_NAME};" || true
-    
+
     echo "Creating new database..."
     psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
       -c "CREATE DATABASE ${DB_NAME};"
-    
+
     # Restore
     echo "Restoring database..."
     pg_restore \
@@ -148,16 +148,16 @@ else
       "${BACKUP_FILE}"
   else
     echo "Detected plain SQL backup"
-    
+
     # Drop and recreate database
     echo "Dropping existing database..."
     psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
       -c "DROP DATABASE IF EXISTS ${DB_NAME};" || true
-    
+
     echo "Creating new database..."
     psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
       -c "CREATE DATABASE ${DB_NAME};"
-    
+
     # Restore
     echo "Restoring database..."
     psql \
@@ -170,7 +170,7 @@ else
 fi
 
 echo "========================================="
-echo "âœ… Database restore completed successfully!"
+echo "✓ Database restore completed successfully!"
 echo "========================================="
 
 # Verify restoration
@@ -179,6 +179,5 @@ TABLE_COUNT=$(psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d "${DB_NAME
 echo "Tables restored: ${TABLE_COUNT}"
 
 echo "========================================="
-echo "âœ… Restore verification completed!"
+echo "✓ Restore verification completed!"
 echo "========================================="
-

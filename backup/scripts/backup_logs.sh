@@ -36,7 +36,7 @@ echo "Temp directory: ${TEMP_DIR}"
 copy_logs_if_exists() {
   local source_dir=$1
   local dest_dir=$2
-  
+
   if [ -d "${source_dir}" ]; then
     echo "Copying logs from: ${source_dir}"
     cp -r "${source_dir}" "${dest_dir}" 2>/dev/null || true
@@ -86,12 +86,12 @@ if [ "$(ls -A ${TEMP_DIR})" ]; then
   cd "${TEMP_DIR}"
   tar -czf "${LOG_BACKUP_FILE}" *
   cd -
-  
+
   # Verify archive
   if [ -f "${LOG_BACKUP_FILE}" ]; then
     BACKUP_SIZE=$(du -h "${LOG_BACKUP_FILE}" | cut -f1)
     echo "========================================="
-    echo "âœ… Log backup completed successfully!"
+    echo "✓ Log backup completed successfully!"
     echo "File: ${LOG_BACKUP_FILE}"
     echo "Size: ${BACKUP_SIZE}"
     echo "========================================="
@@ -118,7 +118,7 @@ find "${BACKUP_DIR}" \
   -mtime +${RETENTION_DAYS} \
   -delete
 
-echo "âœ… Cleanup completed"
+echo "✓ Cleanup completed"
 
 # List current log backups
 echo "========================================="
@@ -131,31 +131,30 @@ if [ "${ENABLE_S3_BACKUP}" = "true" ] && [ -n "${S3_BUCKET}" ]; then
   echo "========================================="
   echo "Uploading to S3: ${S3_BUCKET}"
   echo "========================================="
-  
+
   if ! command -v aws &> /dev/null; then
     apk add --no-cache aws-cli 2>/dev/null || apt-get update && apt-get install -y awscli 2>/dev/null
   fi
-  
+
   S3_PATH="s3://${S3_BUCKET}/backups/logs/${TIMESTAMP}.tar.gz"
   aws s3 cp "${LOG_BACKUP_FILE}" "${S3_PATH}"
-  echo "âœ… Uploaded to S3: ${S3_PATH}"
+  echo "✓ Uploaded to S3: ${S3_PATH}"
 fi
 
 if [ "${ENABLE_GCS_BACKUP}" = "true" ] && [ -n "${GCS_BUCKET}" ]; then
   echo "========================================="
   echo "Uploading to GCS: ${GCS_BUCKET}"
   echo "========================================="
-  
+
   if ! command -v gsutil &> /dev/null; then
     curl https://sdk.cloud.google.com | bash
   fi
-  
+
   GCS_PATH="gs://${GCS_BUCKET}/backups/logs/${TIMESTAMP}.tar.gz"
   gsutil cp "${LOG_BACKUP_FILE}" "${GCS_PATH}"
-  echo "âœ… Uploaded to GCS: ${GCS_PATH}"
+  echo "✓ Uploaded to GCS: ${GCS_PATH}"
 fi
 
 echo "========================================="
-echo "âœ… Log backup process completed!"
+echo "✓ Log backup process completed!"
 echo "========================================="
-
