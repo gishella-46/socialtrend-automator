@@ -8,23 +8,23 @@ Full-stack social media automation platform with AI-powered caption generation.
 
 ### ⚡ One-Click Start (Windows - Recommended!)
 
-**Paling mudah! Cukup double-click file PowerShell:**
+**Paling mudah! Cukup double-click file:**
 
 | File | Fungsi |
 |------|--------|
-| 🟢 **START.ps1** | Mulai semua layanan aplikasi |
-| 🔴 **STOP.ps1** | Hentikan semua layanan |
-| 🔵 **RESTART.ps1** | Restart semua layanan |
-| 📋 **VIEW-LOGS.ps1** | Lihat logs aplikasi |
-| 🌐 **OPEN-WEBSITE.ps1** | Buka aplikasi di browser |
-| 📊 **QUICK-STATUS.ps1** | Cek status cepat |
+| 🟢 **START.bat** | Mulai semua layanan aplikasi |
+| 🔴 **STOP.bat** | Hentikan semua layanan |
+| 🔵 **RESTART.bat** | Restart semua layanan |
+| 📋 **VIEW-LOGS.bat** | Lihat logs aplikasi |
+| 🌐 **OPEN-WEBSITE.bat** | Buka aplikasi di browser |
+| 📊 **STATUS.bat** | Cek status cepat |
 
 **Cara pakai:**
-1. Double-click `START.ps1` 
+1. Double-click `START.bat`
 2. Tunggu sampai selesai
-3. Double-click `OPEN-WEBSITE.ps1` untuk buka aplikasi
+3. Double-click `OPEN-WEBSITE.bat` untuk buka aplikasi
 
-📖 Detail lengkap: Lihat [HOW-TO-USE.md](HOW-TO-USE.md)
+📖 Detail lengkap: Lihat [QUICK-START.md](QUICK-START.md) | [HOW-TO-USE.md](HOW-TO-USE.md)
 
 ### Using Init Script (Linux/Mac)
 

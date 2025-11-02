@@ -129,7 +129,7 @@ Double-click → RESTART.ps1
 **Solusi:** Install Docker Desktop dari https://www.docker.com/products/docker-desktop
 
 ### "Docker is not running"
-**Solusi:** 
+**Solusi:**
 1. Buka Docker Desktop
 2. Tunggu sampai ikon berubah hijau
 3. Jalankan script lagi
@@ -223,4 +223,3 @@ Jika ada masalah:
 ---
 
 **Selamat Mencoba! 🎉**
-
