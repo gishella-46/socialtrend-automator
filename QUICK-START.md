@@ -39,7 +39,7 @@ After starting, access your application at:
 
 ## 💡 Tips
 
-1. **First Time Setup**: 
+1. **First Time Setup**:
    - Ensure Docker Desktop is installed and running
    - Double-click `START.bat` to build and start everything
 
@@ -71,4 +71,3 @@ After starting, access your application at:
 ## 🔧 Advanced
 
 For advanced operations, see the main [README.md](README.md).
-

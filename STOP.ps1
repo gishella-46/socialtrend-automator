@@ -8,11 +8,11 @@ Write-Host "║     SocialTrend Automator - Stop All Services                   
 Write-Host "╚════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Red
 Write-Host ""
 
-Write-Host "🛑 Stopping all containers..." -ForegroundColor Yellow
+Write-Host "Stopping all containers..." -ForegroundColor Yellow
 docker-compose down
 
 Write-Host ""
-Write-Host "✅ All services stopped!" -ForegroundColor Green
+Write-Host "All services stopped!" -ForegroundColor Green
 Write-Host ""
 
 # Keep window open

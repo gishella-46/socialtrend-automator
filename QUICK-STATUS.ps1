@@ -8,11 +8,11 @@ Write-Host "║     SocialTrend Automator - Quick Status                        
 Write-Host "╚════════════════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "📊 Container Status:" -ForegroundColor Yellow
+Write-Host "Container Status:" -ForegroundColor Yellow
 docker-compose ps
 
 Write-Host ""
-Write-Host "🌐 Quick Access URLs:" -ForegroundColor Cyan
+Write-Host "Quick Access URLs:" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "   Frontend:       " -NoNewline -ForegroundColor White
 Write-Host "http://localhost" -ForegroundColor Green
@@ -28,12 +28,12 @@ Write-Host "   Prometheus:     " -NoNewline -ForegroundColor White
 Write-Host "http://localhost:9090" -ForegroundColor Green
 Write-Host ""
 
-Write-Host "💡 Tips:" -ForegroundColor Yellow
-Write-Host "   • Double-click START.ps1 to start all services" -ForegroundColor Gray
-Write-Host "   • Double-click STOP.ps1 to stop all services" -ForegroundColor Gray
-Write-Host "   • Double-click RESTART.ps1 to restart all services" -ForegroundColor Gray
-Write-Host "   • Double-click VIEW-LOGS.ps1 to view logs" -ForegroundColor Gray
-Write-Host "   • Double-click OPEN-WEBSITE.ps1 to open in browser" -ForegroundColor Gray
+Write-Host "Tips:" -ForegroundColor Yellow
+Write-Host "   - Double-click START.bat to start all services" -ForegroundColor Gray
+Write-Host "   - Double-click STOP.bat to stop all services" -ForegroundColor Gray
+Write-Host "   - Double-click RESTART.bat to restart all services" -ForegroundColor Gray
+Write-Host "   - Double-click VIEW-LOGS.bat to view logs" -ForegroundColor Gray
+Write-Host "   - Double-click OPEN-WEBSITE.bat to open in browser" -ForegroundColor Gray
 Write-Host ""
 
 Read-Host "Press Enter to exit"
