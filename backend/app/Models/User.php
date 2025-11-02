@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * User Model
+ * 
+ * NOTE: This application uses flat access control - all authenticated users
+ * have full access to all features. No role-based authorization is implemented.
  * 
  * @property int $id
  * @property string $name
@@ -23,7 +25,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasRoles, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -61,7 +63,7 @@ class User extends Authenticatable
 
     /**
      * Get social accounts for the user
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function socialAccounts()
@@ -71,7 +73,7 @@ class User extends Authenticatable
 
     /**
      * Get scheduled posts for the user
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function scheduledPosts()
@@ -79,21 +81,3 @@ class User extends Authenticatable
         return $this->hasMany(ScheduledPost::class);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

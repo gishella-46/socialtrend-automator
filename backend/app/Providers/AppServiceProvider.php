@@ -4,7 +4,7 @@
 
 /**
  * Application Service Provider
- * 
+ *
  * This service provider is where you may register all of your
  * application services. All service providers are bootstrapped
  * by Laravel's service container.
@@ -35,8 +35,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Spatie Permission will be auto-discovered
-        // No additional configuration needed
+        // Application bootstrapping
     }
 }
-

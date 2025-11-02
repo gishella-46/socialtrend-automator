@@ -5,6 +5,10 @@
 /**
  * API Routes
  * 
+ * NOTE: This application uses flat access control - all authenticated users
+ * have full access to all endpoints. No role-based restrictions are applied.
+ * Authentication (login/token) is still required for protected routes.
+ * 
  * Here is where you can register API routes for your application.
  */
 
@@ -32,6 +36,9 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,
 
 /**
  * @group User Management
+ * 
+ * Protected routes - require authentication but no role/permission checks.
+ * All authenticated users have full access to these endpoints.
  * 
  * Get current authenticated user information
  */

@@ -1,4 +1,9 @@
-"""Authentication routes for FastAPI."""
+"""Authentication routes for FastAPI.
+
+NOTE: This application uses flat access control - all authenticated users
+have full access to all endpoints. No role-based restrictions are applied.
+Authentication (JWT token) is still required for protected routes.
+"""
 
 from datetime import timedelta
 

@@ -1,4 +1,8 @@
-"""Authentication service for FastAPI OAuth2/JWT."""
+"""Authentication service for FastAPI OAuth2/JWT.
+
+NOTE: This application uses flat access control.
+All authenticated users have full access - no role/permission checks.
+"""
 
 import os
 from datetime import datetime, timedelta
