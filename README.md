@@ -87,6 +87,7 @@ docker exec socialtrend_nginx certbot --nginx -d yourdomain.com
 - **API Specification**: `docs/api-spec.md`
 - **Architecture**: `docs/architecture.md`
 - **Deployment**: `docs/deployment.md`
+- **Scaling**: `docs/SCALING.md`
 - **Monitoring**: `docs/MONITORING.md`
 - **Logging**: `docs/LOGGING.md`
 - **CI/CD**: `docs/CI_CD.md`
@@ -153,6 +154,42 @@ curl http://localhost/automation/health
 ```
 
 For detailed testing guide, see [Testing Documentation](docs/TESTING.md).
+
+## 📈 Production Scaling
+
+### Docker Swarm
+
+```bash
+cd deploy/docker-swarm
+./deploy.sh production
+
+# Scale services
+docker service scale socialtrend_backend=5
+docker service scale socialtrend_automation=5
+```
+
+### AWS ECS
+
+```bash
+cd deploy/aws-ecs
+./deploy.sh production
+```
+
+### Google Cloud Run
+
+```bash
+cd deploy/gcp-cloud-run
+./deploy.sh production
+```
+
+### DigitalOcean Apps
+
+```bash
+cd deploy/digitalocean
+doctl apps create --spec apps.yaml
+```
+
+For detailed scaling guide, see [Scaling Documentation](docs/SCALING.md).
 
 ## 📦 Environment Variables
 

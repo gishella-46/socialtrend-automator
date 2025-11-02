@@ -1,0 +1,137 @@
+name: socialtrend-automator
+region: nyc
+services:
+  - name: backend
+    source_dir: /
+    github:
+      repo: gishella-46/socialtrend-automator
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: backend/Dockerfile
+    http_port: 8000
+    instance_count: 3
+    instance_size_slug: professional-xs
+    health_check:
+      http_path: /api/health
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+    envs:
+      - key: DB_HOST
+        scope: RUN_TIME
+        value: ${db.DATABASE_HOST}
+      - key: DB_PORT
+        scope: RUN_TIME
+        value: "5432"
+      - key: DB_DATABASE
+        scope: RUN_TIME
+        value: ${db.DATABASE_DB}
+      - key: DB_USERNAME
+        scope: RUN_TIME
+        value: ${db.DATABASE_USER}
+      - key: DB_PASSWORD
+        scope: RUN_TIME
+        type: SECRET
+        value: ${db.DATABASE_PASSWORD}
+      - key: REDIS_HOST
+        scope: RUN_TIME
+        value: ${redis.DATABASE_HOST}
+      - key: REDIS_PORT
+        scope: RUN_TIME
+        value: "6379"
+    routes:
+      - path: /api
+    alerts:
+      - rule: CPU_UTILIZATION
+        disabled: false
+        value: 80
+      - rule: MEM_UTILIZATION
+        disabled: false
+        value: 80
+
+  - name: automation
+    source_dir: /
+    github:
+      repo: gishella-46/socialtrend-automator
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: automation/Dockerfile
+    http_port: 5000
+    instance_count: 3
+    instance_size_slug: professional-xs
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+    envs:
+      - key: DB_HOST
+        scope: RUN_TIME
+        value: ${db.DATABASE_HOST}
+      - key: DB_PORT
+        scope: RUN_TIME
+        value: "5432"
+      - key: DB_DATABASE
+        scope: RUN_TIME
+        value: ${db.DATABASE_DB}
+      - key: DB_USERNAME
+        scope: RUN_TIME
+        value: ${db.DATABASE_USER}
+      - key: DB_PASSWORD
+        scope: RUN_TIME
+        type: SECRET
+        value: ${db.DATABASE_PASSWORD}
+      - key: REDIS_HOST
+        scope: RUN_TIME
+        value: ${redis.DATABASE_HOST}
+      - key: REDIS_PORT
+        scope: RUN_TIME
+        value: "6379"
+    routes:
+      - path: /automation
+    alerts:
+      - rule: CPU_UTILIZATION
+        disabled: false
+        value: 80
+      - rule: MEM_UTILIZATION
+        disabled: false
+        value: 80
+
+  - name: frontend
+    source_dir: /
+    github:
+      repo: gishella-46/socialtrend-automator
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: frontend/Dockerfile
+    http_port: 8080
+    instance_count: 2
+    instance_size_slug: basic-xxs
+    routes:
+      - path: /
+    envs:
+      - key: VITE_API_URL
+        scope: RUN_TIME
+        value: https://${DOMAIN}/api
+
+databases:
+  - name: db
+    engine: PG
+    production: true
+    cluster_name: socialtrend-db
+    db_name: socialtrend_db
+    db_user: socialtrend_user
+
+  - name: redis
+    engine: REDIS
+    production: true
+    cluster_name: socialtrend-redis
+
+environments:
+  - name: production
+    deployment: {}
+

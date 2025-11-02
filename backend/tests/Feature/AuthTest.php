@@ -77,7 +77,7 @@ class AuthTest extends TestCase
     public function test_authenticated_user_can_access_protected_route(): void
     {
         $user = User::factory()->create();
-        
+
         $response = $this->actingAs($user, 'sanctum')
             ->getJson('/api/user');
 
@@ -91,4 +91,3 @@ class AuthTest extends TestCase
         $response->assertStatus(401);
     }
 }
-

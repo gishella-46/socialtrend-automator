@@ -180,7 +180,7 @@ Tests run automatically in GitHub Actions:
 - name: Run PHPUnit tests
   run: php artisan test
 
-# FastAPI  
+# FastAPI
 - name: Run PyTest tests
   run: pytest --tb=short -v
 
@@ -251,4 +251,3 @@ rm -rf node_modules/.vite
 3. Increase test coverage to 90%+
 4. Add performance testing
 5. Add load testing for critical endpoints
-

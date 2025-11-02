@@ -1,0 +1,37 @@
+{
+  "serviceName": "socialtrend-backend",
+  "cluster": "socialtrend-cluster",
+  "taskDefinition": "socialtrend-automator",
+  "desiredCount": 3,
+  "launchType": "FARGATE",
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": [
+        "${SUBNET_1}",
+        "${SUBNET_2}"
+      ],
+      "securityGroups": [
+        "${SECURITY_GROUP}"
+      ],
+      "assignPublicIp": "ENABLED"
+    }
+  },
+  "loadBalancers": [
+    {
+      "targetGroupArn": "${TARGET_GROUP_ARN}",
+      "containerName": "backend",
+      "containerPort": 8000
+    }
+  ],
+  "deploymentConfiguration": {
+    "maximumPercent": 200,
+    "minimumHealthyPercent": 100,
+    "deploymentCircuitBreaker": {
+      "enable": true,
+      "rollback": true
+    }
+  },
+  "healthCheckGracePeriodSeconds": 60,
+  "enableExecuteCommand": true
+}
+

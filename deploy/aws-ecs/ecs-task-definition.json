@@ -1,0 +1,67 @@
+{
+  "family": "socialtrend-automator",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+  "containerDefinitions": [
+    {
+      "name": "backend",
+      "image": "ghcr.io/gishella-46/socialtrend-backend:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "DB_HOST",
+          "value": "${DB_HOST}"
+        },
+        {
+          "name": "DB_PORT",
+          "value": "5432"
+        },
+        {
+          "name": "DB_DATABASE",
+          "value": "${DB_DATABASE}"
+        },
+        {
+          "name": "DB_USERNAME",
+          "value": "${DB_USERNAME}"
+        },
+        {
+          "name": "REDIS_HOST",
+          "value": "${REDIS_HOST}"
+        },
+        {
+          "name": "REDIS_PORT",
+          "value": "6379"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "${DB_PASSWORD_SECRET_ARN}"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/socialtrend",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "backend"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "curl -f http://localhost:8000/api/health || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3
+      }
+    }
+  ]
+}
+
