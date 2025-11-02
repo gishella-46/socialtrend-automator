@@ -19,7 +19,7 @@ RETENTION_DAYS=7
 mkdir -p "${BACKUP_DIR}"
 
 # Generate backup filename with timestamp
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+TIMESTAMP=$(date +%Y%m%d)
 BACKUP_FILE="${BACKUP_DIR}/db_${TIMESTAMP}.sql.gz"
 
 # Export password for pg_dump (no prompt)

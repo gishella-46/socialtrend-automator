@@ -20,7 +20,7 @@ CELERY_LOGS="/app/celery.log"
 mkdir -p "${BACKUP_DIR}"
 
 # Generate timestamp
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+TIMESTAMP=$(date +%Y%m%d)
 LOG_BACKUP_FILE="${BACKUP_DIR}/logs_${TIMESTAMP}.tar.gz"
 
 echo "========================================="
