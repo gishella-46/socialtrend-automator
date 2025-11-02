@@ -20,7 +20,7 @@ echo "========================================="
 
 # Check if backup file is provided
 if [ -z "$1" ]; then
-  echo "âŒ ERROR: No backup file specified!"
+  echo "ERROR: No backup file specified!"
   echo ""
   echo "Usage: ./restore_db.sh [backup_file]"
   echo ""
@@ -33,7 +33,7 @@ BACKUP_FILE="$1"
 
 # Check if file exists
 if [ ! -f "${BACKUP_FILE}" ]; then
-  echo "âŒ ERROR: Backup file not found: ${BACKUP_FILE}"
+  echo "ERROR: Backup file not found: ${BACKUP_FILE}"
   exit 1
 fi
 
@@ -41,7 +41,7 @@ echo "Backup file: ${BACKUP_FILE}"
 echo "Database: ${DB_NAME}"
 echo "Host: ${DB_HOST}:${DB_PORT}"
 echo ""
-read -p "âš ï¸  WARNING: This will REPLACE all data in ${DB_NAME}. Continue? (yes/no): " CONFIRM
+read -p "WARNING: This will REPLACE all data in ${DB_NAME}. Continue? (yes/no): " CONFIRM
 
 if [ "${CONFIRM}" != "yes" ]; then
   echo "Restore cancelled by user."
@@ -170,7 +170,7 @@ else
 fi
 
 echo "========================================="
-echo "✓ Database restore completed successfully!"
+echo "SUCCESS: Database restore completed successfully!"
 echo "========================================="
 
 # Verify restoration
@@ -179,5 +179,5 @@ TABLE_COUNT=$(psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d "${DB_NAME
 echo "Tables restored: ${TABLE_COUNT}"
 
 echo "========================================="
-echo "✓ Restore verification completed!"
+echo "SUCCESS: Restore verification completed!"
 echo "========================================="

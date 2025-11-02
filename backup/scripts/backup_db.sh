@@ -64,12 +64,12 @@ fi
 if [ -f "${BACKUP_FILE}" ]; then
   BACKUP_SIZE=$(du -h "${BACKUP_FILE}" | cut -f1)
   echo "========================================="
-  echo "✓ Backup completed successfully!"
+  echo "SUCCESS: Backup completed successfully!"
   echo "File: ${BACKUP_FILE}"
   echo "Size: ${BACKUP_SIZE}"
   echo "========================================="
 else
-  echo "âŒ ERROR: Backup file not created!"
+  echo "ERROR: Backup file not created!"
   exit 1
 fi
 
@@ -84,7 +84,7 @@ find "${BACKUP_DIR}" \
   -mtime +${RETENTION_DAYS} \
   -delete
 
-echo "✓ Cleanup completed"
+echo "SUCCESS: Cleanup completed"
 
 # List current backups
 echo "========================================="
@@ -106,7 +106,7 @@ if [ "${ENABLE_S3_BACKUP}" = "true" ] && [ -n "${S3_BUCKET}" ]; then
 
   S3_PATH="s3://${S3_BUCKET}/backups/database/${TIMESTAMP}.sql.gz"
   aws s3 cp "${BACKUP_FILE}" "${S3_PATH}"
-  echo "✓ Uploaded to S3: ${S3_PATH}"
+  echo "SUCCESS: Uploaded to S3: ${S3_PATH}"
 fi
 
 # Optional: Upload to Google Cloud Storage
@@ -123,9 +123,9 @@ if [ "${ENABLE_GCS_BACKUP}" = "true" ] && [ -n "${GCS_BUCKET}" ]; then
 
   GCS_PATH="gs://${GCS_BUCKET}/backups/database/${TIMESTAMP}.sql.gz"
   gsutil cp "${BACKUP_FILE}" "${GCS_PATH}"
-  echo "✓ Uploaded to GCS: ${GCS_PATH}"
+  echo "SUCCESS: Uploaded to GCS: ${GCS_PATH}"
 fi
 
 echo "========================================="
-echo "✓ Backup process completed!"
+echo "SUCCESS: Backup process completed!"
 echo "========================================="

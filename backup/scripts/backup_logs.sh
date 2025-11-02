@@ -41,7 +41,7 @@ copy_logs_if_exists() {
     echo "Copying logs from: ${source_dir}"
     cp -r "${source_dir}" "${dest_dir}" 2>/dev/null || true
   else
-    echo "âš ï¸  Directory not found (skipping): ${source_dir}"
+    echo "WARNING: Directory not found (skipping): ${source_dir}"
   fi
 }
 
@@ -52,21 +52,21 @@ echo "Collecting logs..."
 if [ -d "${NGINX_LOGS}" ]; then
   copy_logs_if_exists "${NGINX_LOGS}" "${TEMP_DIR}/nginx"
 else
-  echo "âš ï¸  Nginx logs directory not found"
+  echo "WARNING: Nginx logs directory not found"
 fi
 
 # Laravel logs
 if [ -d "${LARAVEL_LOGS}" ]; then
   copy_logs_if_exists "${LARAVEL_LOGS}" "${TEMP_DIR}/laravel"
 else
-  echo "âš ï¸  Laravel logs directory not found"
+  echo "WARNING: Laravel logs directory not found"
 fi
 
 # FastAPI logs
 if [ -d "${FASTAPI_LOGS}" ]; then
   copy_logs_if_exists "${FASTAPI_LOGS}" "${TEMP_DIR}/fastapi"
 else
-  echo "âš ï¸  FastAPI logs directory not found"
+  echo "WARNING: FastAPI logs directory not found"
 fi
 
 # Celery logs
@@ -91,17 +91,17 @@ if [ "$(ls -A ${TEMP_DIR})" ]; then
   if [ -f "${LOG_BACKUP_FILE}" ]; then
     BACKUP_SIZE=$(du -h "${LOG_BACKUP_FILE}" | cut -f1)
     echo "========================================="
-    echo "✓ Log backup completed successfully!"
+    echo "SUCCESS: Log backup completed successfully!"
     echo "File: ${LOG_BACKUP_FILE}"
     echo "Size: ${BACKUP_SIZE}"
     echo "========================================="
   else
-    echo "âŒ ERROR: Log backup file not created!"
+    echo "ERROR: Log backup file not created!"
     rm -rf "${TEMP_DIR}"
     exit 1
   fi
 else
-  echo "âš ï¸  No logs found to backup, skipping..."
+  echo "WARNING: No logs found to backup, skipping..."
 fi
 
 # Cleanup temp directory
@@ -118,7 +118,7 @@ find "${BACKUP_DIR}" \
   -mtime +${RETENTION_DAYS} \
   -delete
 
-echo "✓ Cleanup completed"
+echo "SUCCESS: Cleanup completed"
 
 # List current log backups
 echo "========================================="
@@ -138,7 +138,7 @@ if [ "${ENABLE_S3_BACKUP}" = "true" ] && [ -n "${S3_BUCKET}" ]; then
 
   S3_PATH="s3://${S3_BUCKET}/backups/logs/${TIMESTAMP}.tar.gz"
   aws s3 cp "${LOG_BACKUP_FILE}" "${S3_PATH}"
-  echo "✓ Uploaded to S3: ${S3_PATH}"
+  echo "SUCCESS: Uploaded to S3: ${S3_PATH}"
 fi
 
 if [ "${ENABLE_GCS_BACKUP}" = "true" ] && [ -n "${GCS_BUCKET}" ]; then
@@ -152,9 +152,9 @@ if [ "${ENABLE_GCS_BACKUP}" = "true" ] && [ -n "${GCS_BUCKET}" ]; then
 
   GCS_PATH="gs://${GCS_BUCKET}/backups/logs/${TIMESTAMP}.tar.gz"
   gsutil cp "${LOG_BACKUP_FILE}" "${GCS_PATH}"
-  echo "✓ Uploaded to GCS: ${GCS_PATH}"
+  echo "SUCCESS: Uploaded to GCS: ${GCS_PATH}"
 fi
 
 echo "========================================="
-echo "✓ Log backup process completed!"
+echo "SUCCESS: Log backup process completed!"
 echo "========================================="
