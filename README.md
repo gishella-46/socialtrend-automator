@@ -6,7 +6,27 @@ Full-stack social media automation platform with AI-powered caption generation.
 
 ## 🚀 Quick Start
 
-### Using Init Script (Recommended)
+### ⚡ One-Click Start (Windows - Recommended!)
+
+**Paling mudah! Cukup double-click file PowerShell:**
+
+| File | Fungsi |
+|------|--------|
+| 🟢 **START.ps1** | Mulai semua layanan aplikasi |
+| 🔴 **STOP.ps1** | Hentikan semua layanan |
+| 🔵 **RESTART.ps1** | Restart semua layanan |
+| 📋 **VIEW-LOGS.ps1** | Lihat logs aplikasi |
+| 🌐 **OPEN-WEBSITE.ps1** | Buka aplikasi di browser |
+| 📊 **QUICK-STATUS.ps1** | Cek status cepat |
+
+**Cara pakai:**
+1. Double-click `START.ps1` 
+2. Tunggu sampai selesai
+3. Double-click `OPEN-WEBSITE.ps1` untuk buka aplikasi
+
+📖 Detail lengkap: Lihat [HOW-TO-USE.md](HOW-TO-USE.md)
+
+### Using Init Script (Linux/Mac)
 
 ```bash
 ./init.sh
